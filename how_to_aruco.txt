@@ -1,0 +1,23 @@
+aruco_ros melodic　の使い方
+
+1. git clone aruco_ros(melodic_devel)
+2. rosrun uvc_camera uvc_camera_node _device:=/dev/video2(usbカメラの場合)
+3. aruco_rosの中にあるsingle.launchのトピック名を以下のように編集する
+
+<remap from="/camera_info" to="/camera_info" />
+<remap from="/image" to="/image_raw" />
+
+makerid and markersizeは特にこだわらなくてもよい
+フレーム系は適宜状況に合わせて編集すること(動作確認程度なら触れなくて良い)
+marker_frame:= ArucoMarker name（なんでも良い）
+ref_frame:= 何もなくても良いが、ロボットの際に使用するなら/base_link
+camera_frame:= ArucoMarkerを検出する際のカメラのフレーム
+
+4. 起動するコマンド
+   roslaunch aruco_ros single.launch
+   rosrun uvc_camera uvc_camera_node _device:=/dev/video2
+   rosrun image_view image_view image:=/aruco_single/result
+
+single.launchだが２つ以上マーカーを認識できる
+aruco_rosのノードで座標変換とopencvによるarucomarker検出をおこなってくれている
+

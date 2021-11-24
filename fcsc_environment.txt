@@ -1,0 +1,57 @@
+
+fcscの環境をgazeboで立ち上げる方法
+
+1:以下のことを.bashrcに加える
+$ emacs .bashrc
+export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:/path/to/wrs_gazebo_worlds/models/
+また、/path/to/の部分は、適宜変更すること
+例：~/catkin_ws/src/wrs_gazebo_worlds/models
+$ source .bashrc
+
+2: 以下のコマンドを入力する
+$ git submodule add -b master --name wrs_gazebo_worlds https://github.com/FCSC/wrs_gazebo_worlds.git catkin_ws/src/wrs_gazebo_worlds
+
+このコマンドを打つと、エラー：fatal: Not a git repository (or any of the parent directories): .git と出る可能性がある
+→git の初期セットアップが原因なので、その際は以下のコマンドを打つこと(xxxx は、個人のgithubのusernameやmailaddressを用いる)
+$ git config --global user.name "xxxx"
+$ git config --global user.email "xxxxxx@gmail.com"
+$ git init
+
+この後に、上記のgit submodule ~を実行する
+→成功すれば、~/catkin_ws/srcの中に"wrs_gazebo_worlds"が入っている
+
+3: "wrs_gazebo_models"は、モデルが大きいためgit lfsを用いる。
+以下のコマンドを入力する
+$ cd ~/catkin_ws/src
+$ git lfs pull
+拡張されればOK
+
+4: launchファイルを作成する
+$ cd ~/catkin_ws/src/wrs_gazebo_worlds/
+$ mkdir launch
+$ cd launch
+$ emacs wrc_fcsc2020.launch
+以下のコピー＆ペーストするとよい
+####################################################################
+
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+   <arg name="world_name" value="$(find wrs_gazebo_worlds)/worlds/wrs_fcsc2020.world"/>	
+   <arg name="paused" value="false"/>
+   <arg name="use_sim_time" value="true"/>
+   <arg name="gui" value="true"/>
+   <arg name="recording" value="false"/>
+   <arg name="debug" value="false"/>
+
+  </include>
+  
+</launch>
+
+######################################################################
+保存したら、以下のコマンドでgazeboを起動する
+$ roslaunch wrs_gazebo_worlds wrs_fcsc2020.launch
+
+少し待てば、gazeboにfcsc2020の環境が反映されている

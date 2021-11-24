@@ -1,0 +1,64 @@
+############################################################################################
+Raspberry pi 3 Ros Melodic install Rosのversionはなんでもいい（適宜対応）
+
+1.http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Melodic%20on%20the%20Raspberry%20Pi
+基本的にはこのサイト通りにやること
+
+2.注意するのはdesktop版をインストールする際
+ROSのデスクトップ版のビルドは、Raspberry Piのメモリと初期に割り当てられているスワップ領域では不十分らしく、スワップ領域を広げていないとよく分からないエラーが出てビルドが失敗する.
+スワップ領域を広げるために以下のファイルを開く
+$sudo emacs /etc/dphys-swapfile
+
+下記の部分を100->2048に変更する
+CONF_SWAPSIZE=2048
+
+設定値を大きくしたら、スワップ領域に関するプログラムを再起動するコマンドをする
+sudo /etc/init.d/dphys-swapfile restart
+####################################################################################
+
+raspberry piに割り振られるipアドレス 220 の場合
+192.168.11.3
+例: ssh ubuntu@192.168.11.3
+
+232の場合
+192.168.50.151
+例: ssh ubuntu@192.168.50.151
+
+hostnameでもいける
+ssh ubuntu@raspberry.local
+
+username: ubuntu
+password: raspberry
+
+#################################################################################################
+kobuki Ubuntu18.04 melodic　動作方法
+接続方法は、USBのtypeBとPCを有線接続
+
+0. Rosのmelodicはインストールしておくこと
+1. catkin_ws上で,
+curl -sLf https://raw.githubusercontent.com/gaunthan/Turtlebot2-On-Melodic/master/install_basic.sh | bash
+を実行
+→適宜足りないパッケージはインストールすること
+2. catkin build
+3. $ roslaunch turtlebot_bringup minimal.launch
+→ここで、ファームウェアに関するエラーが起きた際、ターミナル上のサイトにしたがってファームウェアを更新する
+最終更新日(2021/07/05)
+→laptopbatteryに関するエラーが別に気にしなくてもよい
+4. $ roslaunch turtlebot_teleop keyboard_teleop.launch
+################################################################################################
+
+###############################################################################################
+open_manipulator 動作方法
+
+$sudo chmod 777 /dev/ttyACM0
+$roslaunch open_manipulator_controllers open_manipulator_controllers.launch
+###############################################################################################
+
+
+
+
+
+
+
+
+
