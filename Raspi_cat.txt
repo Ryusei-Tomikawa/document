@@ -1,0 +1,39 @@
+Raspi_catについて
+
+やるべきこと
+1.Raspbianのダウンロード
+2.ROSのインストール
+3.RaspiMouseのDeviceDriverのインストール
+
+1.How to install Raspbian 
+buster
+https://www.1ft-seabass.jp/memo/2018/07/23/raspbian-install-201807-memo/
+
+stretch
+http://ytyaru.hatenablog.com/entry/2019/05/23/000000
+
+(microSDカードにzipファイルを入れるときEtcherを推奨する)
+
+2.Raspbianにrosをinstall
+http://asukiaaa.blogspot.com/2018/06/raspberry-pi-raspbianstretchrosmelodic.html
+
+Rosのビルドの際,以下の２つをインストールしてから行うこと
+sudo apt install libqt4-dev  　・・・-devでlibqt4に関連するものすべて入る
+sudo apt install pyqt5-dev      
+
+3.RaspiMouseのDeviceDriver
+git clone https://github.com/rt-net/RaspberryPiMouse
+
+git後、READMEに従ってインストールを行う
+
+動作方法
+以下のサイトでRaspicatで地図生成を行っている
+https://www.rt-shop.jp/blog/archives/11023
+
+1.setupのsh →ブザー鳴る
+2.sudo chmod 666 /dev/rt*
+3.remotePC  roscore
+  raspberryPC  roslaunch raspicat raspicat.launch
+  remotePC   roslaunch logiccool.launch
+ 
+
